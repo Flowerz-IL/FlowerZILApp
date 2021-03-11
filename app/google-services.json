@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "429235641957",
+    "project_id": "flowerzil",
+    "storage_bucket": "flowerzil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429235641957:android:c45a22e479538d0496708c",
+        "android_client_info": {
+          "package_name": "com.flowerzapi.providers_dashboard_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429235641957-4sb5qj6d3r2bjul3s1j0valarkguopdp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeJT5WoBhk16gmg1j8E6fVgBL9Lzhbnqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429235641957-4sb5qj6d3r2bjul3s1j0valarkguopdp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

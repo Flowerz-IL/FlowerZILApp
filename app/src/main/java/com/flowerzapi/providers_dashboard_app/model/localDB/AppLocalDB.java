@@ -11,7 +11,7 @@ import com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel.FlowerBou
 import com.flowerzapi.providers_dashboard_app.model.userModel.User;
 import com.flowerzapi.providers_dashboard_app.model.userModel.UserDao;
 
-@Database(entities = {FlowerBouquet.class, User.class}, version = 1)
+@Database(entities = {FlowerBouquet.class, User.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class AppLocalDB extends RoomDatabase {
 

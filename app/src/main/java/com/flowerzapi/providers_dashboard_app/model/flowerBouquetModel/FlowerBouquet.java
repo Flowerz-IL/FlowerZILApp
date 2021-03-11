@@ -3,7 +3,10 @@ package com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -19,6 +22,8 @@ public class FlowerBouquet {
     @ColumnInfo(name = "id")
     @NonNull
     private String bouquetId;
+    @ColumnInfo(name = "user_id")
+    private String userId;
     @ColumnInfo(name="image_url")
     private String bouquetImageUrl;
     @ColumnInfo(name="title")
@@ -32,28 +37,18 @@ public class FlowerBouquet {
     public FlowerBouquet(){
         this.bouquetId = UUID.randomUUID().toString();
     }
-    public FlowerBouquet(String bouquetImageUrl, String bouquetTitle, String bouquetDescription) {
-        this.bouquetId = UUID.randomUUID().toString();
-        this.bouquetImageUrl = bouquetImageUrl;
-        this.bouquetTitle = bouquetTitle;
-        this.bouquetDescription = bouquetDescription;
-    }
-    public FlowerBouquet(@org.jetbrains.annotations.NotNull String bouquetId, String bouquetImageUrl, String bouquetTitle, String bouquetDescription) {
-        this.bouquetId = bouquetId;
-        this.bouquetImageUrl = bouquetImageUrl;
-        this.bouquetTitle = bouquetTitle;
-        this.bouquetDescription = bouquetDescription;
-    }
 
     // Getters
-    public String getBouquetId() { return this.bouquetId; }
+    public @NotNull String getBouquetId() { return this.bouquetId; }
+    public String getUserId() { return userId; }
     public String getBouquetImageUrl() { return this.bouquetImageUrl; }
     public String getBouquetTitle() { return this.bouquetTitle; }
     public String getBouquetDescription() { return this.bouquetDescription; }
     public long getLastUpdated() { return this.lastUpdated; }
 
     // Setters
-    public void setBouquetId(String bouquetId) { this.bouquetId = bouquetId; }
+    public void setBouquetId(@NotNull String bouquetId) { this.bouquetId = bouquetId; }
+    public void setUserId(String userId) { this.userId = userId; }
     public void setBouquetImageUrl(String bouquetImageUrl) { this.bouquetImageUrl = bouquetImageUrl; }
     public void setBouquetTitle(String bouquetTitle) { this.bouquetTitle = bouquetTitle; }
     public void setBouquetDescription(String bouquetDescription) { this.bouquetDescription = bouquetDescription; }

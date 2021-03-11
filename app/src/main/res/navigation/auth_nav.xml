@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav"
+    app:startDestination="@id/welcom_screen_fragment">
+    <fragment
+        android:id="@+id/sign_up_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signup_fragment"
+        android:label="sign_up_fragment"
+        tools:layout="@layout/signup_fragment" >
+        <action
+            android:id="@+id/signup_to_signin"
+            app:destination="@id/signin_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/signin_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signin_fragment"
+        android:label="signin_fragment"
+        tools:layout="@layout/signin_fragment" >
+        <action
+            android:id="@+id/signin_to_signup"
+            app:destination="@id/sign_up_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcom_screen_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.welcome_screen_fragment"
+        android:label="welcom_screen_fragment"
+        tools:layout="@layout/welcome_screen_fragment" >
+        <action
+            android:id="@+id/welcome_to_sigin"
+            app:destination="@id/signin_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+</navigation>
