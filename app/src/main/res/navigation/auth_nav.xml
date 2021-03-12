@@ -6,7 +6,7 @@
     app:startDestination="@id/welcom_screen_fragment">
     <fragment
         android:id="@+id/sign_up_fragment"
-        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signup_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signUp.signup_fragment"
         android:label="sign_up_fragment"
         tools:layout="@layout/signup_fragment" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/signin_fragment"
-        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signin_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signIn.signin_fragment"
         android:label="signin_fragment"
         tools:layout="@layout/signin_fragment" >
         <action

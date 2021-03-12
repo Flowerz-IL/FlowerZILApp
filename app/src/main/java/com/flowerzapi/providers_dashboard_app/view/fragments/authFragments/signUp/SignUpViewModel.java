@@ -1,4 +1,4 @@
-package com.flowerzapi.providers_dashboard_app.modelView.authModelView;
+package com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signUp;
 
 import android.app.Activity;
 

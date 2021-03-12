@@ -1,4 +1,4 @@
-package com.flowerzapi.providers_dashboard_app.view.fragments.authFragments;
+package com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signUp;
 
 import android.os.Bundle;
 
@@ -14,11 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.flowerzapi.providers_dashboard_app.R;
-import com.flowerzapi.providers_dashboard_app.modelView.authModelView.SignInViewModel;
-import com.flowerzapi.providers_dashboard_app.modelView.authModelView.SignUpViewModel;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
 import com.flowerzapi.providers_dashboard_app.util.Validation;
-import com.flowerzapi.providers_dashboard_app.view.activities.MainActivity;
+import com.flowerzapi.providers_dashboard_app.view.activities.ProvidersActivity;
 
 public class signup_fragment extends Fragment {
 
@@ -66,7 +64,7 @@ public class signup_fragment extends Fragment {
       String storeName = storeNameET.getText().toString();
       if(!validateInputData(email, password, firstName, lastName, phoneNumber, storeName)) return;
       viewModel.signUp(email, password, firstName, lastName, phoneNumber, storeName, getActivity(), isSuccessful -> {
-          if(isSuccessful) HelperClass.navigateToActivity(getActivity(), MainActivity.class);
+          if(isSuccessful) HelperClass.navigateToActivity(getActivity(), ProvidersActivity.class);
           else HelperClass.alertMessage(getActivity(), "Filed To SignUp");
           initialiseET();
       });
@@ -74,38 +72,40 @@ public class signup_fragment extends Fragment {
 
     // Helpers
     private boolean validateInputData(String email, String password, String firstName, String lastName, String phoneNumber, String storeName) {
+        boolean res = true;
 
         if(!Validation.validateEmail(email)){
-            HelperClass.alertMessage(getActivity(), "please insert a valid email address");
-            return false;
+            emailET.setError("please insert a valid email address");
+            res = false;
         }
 
         if(!Validation.validateShortText(password)){
-            HelperClass.alertMessage(getActivity(), "please insert a valid password");
-            return false;
+            passwordET.setError("please insert a valid password");
+            res = false;
         }
 
         if(!Validation.validateShortText(firstName)){
-            HelperClass.alertMessage(getActivity(), "full name - string length between 4 to 25");
-            return false;
+            firstNameET.setError("full name - string length between 4 to 25");
+            res = false;
         }
 
         if(!Validation.validateShortText(lastName)){
-            HelperClass.alertMessage(getActivity(), "last name - string length between 4 to 25");
-            return false;
+            lastNameET.setError("last name - string length between 4 to 25");
+            res = false;
         }
 
         if(!Validation.validatePhoneNumber(phoneNumber)){
-            HelperClass.alertMessage(getActivity(), "please insert a valid mobile phone number");
-            return false;
+            phoneNumberET.setError("please insert a valid mobile phone number");
+            res = false;
         }
 
         if(!Validation.validateShortText(storeName)){
-            HelperClass.alertMessage(getActivity(), "store name - string length between 4 to 25");
-            return false;
+            storeNameET.setError("store name - string length between 4 to 25");
+            res = false;
         }
 
-        return true;
+        if(!res) HelperClass.alertMessage(getActivity(), "fix the errors before submitting");
+        return res;
     }
     private void initialiseET(){
         emailET.setText("");

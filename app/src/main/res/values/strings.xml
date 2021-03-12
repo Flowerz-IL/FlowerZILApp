@@ -13,4 +13,10 @@
     <string name="phone_number">Phone Number</string>
     <string name="store_name">Store Name</string>
     <string name="register">Register</string>
+    <string name="title_activity_providers">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="my_items">My Items</string>
+    <string name="user_details">User Details</string>
 </resources>

@@ -1,6 +1,5 @@
-package com.flowerzapi.providers_dashboard_app.view.fragments.authFragments;
+package com.flowerzapi.providers_dashboard_app.view.fragments.authFragments.signIn;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,22 +7,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.flowerzapi.providers_dashboard_app.R;
-import com.flowerzapi.providers_dashboard_app.modelView.authModelView.SignInViewModel;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
 import com.flowerzapi.providers_dashboard_app.util.Validation;
-import com.flowerzapi.providers_dashboard_app.view.activities.MainActivity;
-
-import java.util.Objects;
-
+import com.flowerzapi.providers_dashboard_app.view.activities.ProvidersActivity;
 
 public class signin_fragment extends Fragment {
 
@@ -64,7 +57,7 @@ public class signin_fragment extends Fragment {
         String password = passwordET.getText().toString();
         if(!validateInputData(email, password)) return;
         viewModel.signIn(email, password, getActivity(), isSuccessful -> {
-            if(isSuccessful) HelperClass.navigateToActivity(getActivity(), MainActivity.class);
+            if(isSuccessful) HelperClass.navigateToActivity(getActivity(), ProvidersActivity.class);
             else HelperClass.alertMessage(getActivity(), "Filed To Login");
             initialiseET();
         });
@@ -72,18 +65,20 @@ public class signin_fragment extends Fragment {
 
     // Helpers
     private boolean validateInputData(String email, String password) {
+        boolean res = true;
 
         if(!Validation.validateEmail(email)){
-            HelperClass.alertMessage(getActivity(), "please insert a valid email address");
-            return false;
+            emailET.setError("please insert a valid email address");
+            res = false;
         }
 
         if(!Validation.validateShortText(password)){
-            HelperClass.alertMessage(getActivity(), "please insert a valid password");
-            return false;
+            passwordET.setError("please insert a valid password");
+            res = false;
         }
 
-        return true;
+        if(!res) HelperClass.alertMessage(getActivity(), "fix the errors before submitting");
+        return res;
     }
     private void initialiseET(){
         emailET.setText("");
