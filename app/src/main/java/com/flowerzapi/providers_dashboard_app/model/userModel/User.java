@@ -17,7 +17,7 @@ public class User {
     @PrimaryKey()
     @ColumnInfo(name="id")
     @NonNull
-    private final String userId;
+    private String userId;
     private String email;
     @ColumnInfo(name="first_name")
     private String firstName;
@@ -31,6 +31,8 @@ public class User {
     private long lastUpdated;
 
     // Constructor
+    public User(){}
+
     public User(@NotNull String userId, String email, String firstName, String lastName, String storeName, String phoneNumber) {
         this.userId = userId;
         this.email = email;
@@ -50,6 +52,7 @@ public class User {
     public long getLastUpdated() { return this.lastUpdated; }
 
     // Setters
+    public void setUserId(@NotNull String userId) {this.userId = userId; }
     public void setEmail(String email) { this.email = email; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setLastName(String lastName) { this.lastName = lastName; }

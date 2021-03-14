@@ -41,7 +41,6 @@ public class MainRepository {
     public void signIn(String email, String password, Activity currentActivity, CustomListener<Boolean> listener){
         externalRepository.signIn(email, password, currentActivity, listener);
     }
-
     public void signUp(String email, String password, String firstName, String lastName, String phoneNumber, String storeName, Activity currentActivity, CustomListener<Boolean> listener){
         externalRepository.signUp(email, password, currentActivity, isSuccessful -> {
             if(isSuccessful) {
@@ -51,10 +50,10 @@ public class MainRepository {
             } else listener.onComplete(false);
         });
     }
-
     public boolean isSignedIn(){
         return externalRepository.getCurrentUser() != null;
     }
+    public void signOut() { externalRepository.signOut();}
 
     // User Model
     public void addUser(User user, CustomListener<Boolean> listener){
@@ -71,6 +70,10 @@ public class MainRepository {
 
     public void getSpecificUser(String userId,  CustomListener<User> listener){
         externalRepository.getSpecificUser(userId, listener);
+    }
+
+    public void getCurrentUser(CustomListener<User> listener){
+        getSpecificUser(externalRepository.getCurrentUser().getUid(), listener);
     }
 
     public void deleteSpecificUser(String userId, CustomListener<Boolean> listener){

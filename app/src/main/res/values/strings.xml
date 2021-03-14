@@ -17,6 +17,15 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="my_items">My Items</string>
     <string name="user_details">User Details</string>
+    <string name="provider_name">provider name</string>
+    <string name="avatar_icon">avatar icon</string>
+    <string name="log_out">Log Out</string>
+    <string name="change_password">Change Password</string>
+    <string name="my_items">My Items</string>
+    <string name="delete_user">Delete User</string>
+    <string name="edit_details">Edit Details</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="new_password">new password</string>
 </resources>

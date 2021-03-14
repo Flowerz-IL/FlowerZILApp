@@ -34,14 +34,14 @@ public class signup_fragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
         // Initialise view items
-        signInButton = view.findViewById(R.id.sign_in_bt_sign_up);
-        signUpButton = view.findViewById(R.id.sign_up_bt_sign_up);
-        emailET = view.findViewById(R.id.email_et_sign_up);
+        signInButton = view.findViewById(R.id.cancel_bt_edit_details);
+        signUpButton = view.findViewById(R.id.edit_bt_edit_details);
+        emailET = view.findViewById(R.id.email_et_edit_details);
         passwordET = view.findViewById(R.id.password_et_sign_up);
-        firstNameET = view.findViewById(R.id.first_name_et_sign_up);
-        lastNameET = view.findViewById(R.id.last_name_et_sign_up);
-        phoneNumberET = view.findViewById(R.id.phone_et_sign_up);
-        storeNameET = view.findViewById(R.id.store_name_et_sign_up);
+        firstNameET = view.findViewById(R.id.first_name_et_edit_details);
+        lastNameET = view.findViewById(R.id.last_name_et_edit_details);
+        phoneNumberET = view.findViewById(R.id.phone_et_edit_details);
+        storeNameET = view.findViewById(R.id.store_name_et_edit_details);
 
         // Set buttons actions
         signInButton.setOnClickListener(moveToSignIn);

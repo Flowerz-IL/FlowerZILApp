@@ -33,6 +33,7 @@ public class ExternalRepository {
     public FirebaseUser getCurrentUser(){
         return FirebaseAuth.getInstance().getCurrentUser();
     }
+    public void signOut(){ FirebaseAuth.getInstance().signOut(); }
 
     // FireStore functions
     public void addOrUpdateUser(User user, MainRepository.CustomListener<Boolean> listener) {

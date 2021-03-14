@@ -2,6 +2,7 @@
 <resources>
     <color name="green_light">#29C15B</color>
     <color name="green_dark">#003837</color>
+    <color name="gray_light">#F1F1F1</color>
     <color name="gray_dark">@android:color/darker_gray</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

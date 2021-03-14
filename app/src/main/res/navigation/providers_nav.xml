@@ -12,14 +12,46 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/provider_items"
         android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.providerItems.providers_items_fragment"
-        android:label="@string/title_dashboard"
+        android:label="Provider Items"
         tools:layout="@layout/fragment_providers_items" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/user_details"
         android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.providersDetails.providers_details_fragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_providers_details" />
+        android:label="@string/user_details"
+        tools:layout="@layout/fragment_providers_details">
+        <action
+            android:id="@+id/user_details_to_provider_items"
+            app:destination="@id/provider_items"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/user_details_to_edit_details"
+            app:destination="@id/edit_detials_fragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/edit_details_to_change_pass"
+            app:destination="@id/change_password_fragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/edit_detials_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.editDetails.edit_details_fragment"
+        android:label="fragment_edit_detials_fragment"
+        tools:layout="@layout/edit_details_fragment" >
+        <action
+            android:id="@+id/edit_to_user"
+            app:destination="@id/user_details"
+            app:popUpTo="@id/user_details"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/change_password_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.change_password_fragment"
+        android:label="change_password_fragment"
+        tools:layout="@layout/change_password_fragment" />
 </navigation>
