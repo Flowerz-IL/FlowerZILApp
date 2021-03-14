@@ -34,6 +34,22 @@ public class ExternalRepository {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
     public void signOut(){ FirebaseAuth.getInstance().signOut(); }
+    public void changePassword(String password, MainRepository.CustomListener<Boolean> listener) {
+        Objects.requireNonNull(FirebaseAuth
+                .getInstance()
+                .getCurrentUser())
+                .updatePassword(password)
+                .addOnCompleteListener(task -> listener.onComplete(task.isSuccessful()));
+    }
+    public void deleteCurrentUser(MainRepository.CustomListener<String> listener){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        String userId = user.getUid();
+        user.delete().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) listener.onComplete(userId);
+            else listener.onComplete("");
+        });
+    }
 
     // FireStore functions
     public void addOrUpdateUser(User user, MainRepository.CustomListener<Boolean> listener) {

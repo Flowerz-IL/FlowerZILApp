@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/change_password_fragment"
-        android:name="com.flowerzapi.providers_dashboard_app.change_password_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.changePassword.change_password_fragment"
         android:label="change_password_fragment"
         tools:layout="@layout/change_password_fragment" />
 </navigation>

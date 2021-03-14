@@ -1,6 +1,8 @@
 package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.providersDetails;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +22,13 @@ import com.flowerzapi.providers_dashboard_app.view.activities.AuthActivity;
 
 public class providers_details_fragment extends Fragment {
 
+    // Data
     private ProvidersDetailsViewModel viewModel;
     ProgressBar loader;
     Button editDetailsBT, changePasswordBT, providersItemsBT, deleteProviderBT, logOutBT;
     TextView providerStoreTV, providerFullName;
 
+    // Overrides
     @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,7 +59,7 @@ public class providers_details_fragment extends Fragment {
         providersItemsBT.setOnClickListener(moveToProviderItems);
         changePasswordBT.setOnClickListener(moveToChangePassword);
         logOutBT.setOnClickListener(signOut);
-
+        deleteProviderBT.setOnClickListener(deleteProvider);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,4 +74,18 @@ public class providers_details_fragment extends Fragment {
     View.OnClickListener moveToProviderItems = view -> HelperClass.navigateToFragment(view, R.id.user_details_to_provider_items);
     View.OnClickListener moveToEditItems = view -> HelperClass.navigateToFragment(view, R.id.user_details_to_edit_details);
     View.OnClickListener moveToChangePassword = view -> HelperClass.navigateToFragment(view, R.id.edit_details_to_change_pass);
+    View.OnClickListener deleteProvider = view -> {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Delete user")
+                .setMessage("Are you sure you want to delete this user?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    viewModel.deleteCurrentUser(isSuccessful -> {
+                        if(isSuccessful) HelperClass.navigateToActivity(getActivity(), AuthActivity.class);
+                        else HelperClass.alertMessage(getActivity(), "something went wrong while trying to delete your user");
+                    });
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    };
 }

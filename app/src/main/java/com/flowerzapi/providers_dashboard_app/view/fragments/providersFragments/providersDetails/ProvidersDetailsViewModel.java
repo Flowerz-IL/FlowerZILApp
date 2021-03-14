@@ -29,4 +29,9 @@ public class ProvidersDetailsViewModel extends ViewModel {
 
     // sign out
     public void signOut(){ mainRepository.signOut(); }
+
+    // delete user
+    public void deleteCurrentUser(MainRepository.CustomListener<Boolean> listener) {
+        mainRepository.deleteCurrentUser(listener);
+    }
 }

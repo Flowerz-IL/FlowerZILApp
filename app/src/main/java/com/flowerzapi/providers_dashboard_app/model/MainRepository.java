@@ -10,8 +10,10 @@ import com.flowerzapi.providers_dashboard_app.model.externalDB.ExternalRepositor
 import com.flowerzapi.providers_dashboard_app.model.localDB.AppLocalDB;
 import com.flowerzapi.providers_dashboard_app.model.localDB.LocalRepository;
 import com.flowerzapi.providers_dashboard_app.model.userModel.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainRepository {
 
@@ -54,6 +56,15 @@ public class MainRepository {
         return externalRepository.getCurrentUser() != null;
     }
     public void signOut() { externalRepository.signOut();}
+    public void changePassword(String password, MainRepository.CustomListener<Boolean> listener) {
+        externalRepository.changePassword(password, listener);
+    }
+    public void deleteCurrentUser(CustomListener<Boolean> listener) {
+       externalRepository.deleteCurrentUser(userId -> {
+           if(userId.equals("")) listener.onComplete(false);
+           else deleteSpecificUser(userId, listener);
+       });
+    }
 
     // User Model
     public void addUser(User user, CustomListener<Boolean> listener){
