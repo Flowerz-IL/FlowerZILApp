@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.flowerzapi.providers_dashboard_app.R;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
@@ -22,6 +23,7 @@ public class signin_fragment extends Fragment {
 
     // Data
     SignInViewModel viewModel;
+    ProgressBar loader;
     Button signInButton, signUpButton;
     EditText emailET, passwordET;
 
@@ -34,6 +36,7 @@ public class signin_fragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
         // Initialise view items
+        loader = view.findViewById(R.id.loader_sign_in);
         signInButton = view.findViewById(R.id.sign_in_bt);
         signUpButton = view.findViewById(R.id.sign_up_bt);
         emailET = view.findViewById(R.id.email_et_sign_in);
@@ -43,6 +46,7 @@ public class signin_fragment extends Fragment {
         signUpButton.setOnClickListener(moveToSignUp);
         signInButton.setOnClickListener(signIn);
 
+        loader.setVisibility(View.GONE);
     }
 
     @Override
@@ -53,10 +57,16 @@ public class signin_fragment extends Fragment {
     // On click listeners
     View.OnClickListener moveToSignUp = view -> HelperClass.navigateToFragment(view, R.id.signin_to_signup);
     View.OnClickListener signIn = view -> {
+        loader.setVisibility(View.VISIBLE);
+        signUpButton.setVisibility(View.GONE);
+        signInButton.setVisibility(View.GONE);
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         if(!validateInputData(email, password)) return;
         viewModel.signIn(email, password, getActivity(), isSuccessful -> {
+            loader.setVisibility(View.GONE);
+            signUpButton.setVisibility(View.VISIBLE);
+            signInButton.setVisibility(View.VISIBLE);
             if(isSuccessful) HelperClass.navigateToActivity(getActivity(), ProvidersActivity.class);
             else HelperClass.alertMessage(getActivity(), "Filed To Login");
             initialiseET();

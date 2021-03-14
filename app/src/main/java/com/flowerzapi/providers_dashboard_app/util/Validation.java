@@ -17,7 +17,7 @@ public class Validation {
 
     public static boolean validateShortText(String text) {
         int len = text.length();
-        return len >= 4 && len < 25;
+        return len >= 2 && len < 25;
     }
 
     public static boolean validateLongText(String text) {

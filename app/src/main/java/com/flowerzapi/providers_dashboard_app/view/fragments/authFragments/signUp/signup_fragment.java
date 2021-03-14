@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.flowerzapi.providers_dashboard_app.R;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
@@ -21,6 +22,7 @@ import com.flowerzapi.providers_dashboard_app.view.activities.ProvidersActivity;
 public class signup_fragment extends Fragment {
 
     // Data
+    ProgressBar loader;
     SignUpViewModel viewModel;
     Button signInButton, signUpButton;
     EditText emailET, passwordET, firstNameET, lastNameET, phoneNumberET, storeNameET;
@@ -34,6 +36,7 @@ public class signup_fragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
         // Initialise view items
+        loader = view.findViewById(R.id.loader_sign_up);
         signInButton = view.findViewById(R.id.cancel_bt_edit_details);
         signUpButton = view.findViewById(R.id.edit_bt_edit_details);
         emailET = view.findViewById(R.id.email_et_edit_details);
@@ -46,6 +49,8 @@ public class signup_fragment extends Fragment {
         // Set buttons actions
         signInButton.setOnClickListener(moveToSignIn);
         signUpButton.setOnClickListener(signUp);
+
+        loader.setVisibility(View.GONE);
     }
 
     @Override
@@ -56,18 +61,24 @@ public class signup_fragment extends Fragment {
     // On click listeners
     View.OnClickListener moveToSignIn = view -> HelperClass.navigateToFragment(view, -1);
     View.OnClickListener signUp = view -> {
-      String email = emailET.getText().toString();
-      String password = passwordET.getText().toString();
-      String firstName = firstNameET.getText().toString();
-      String lastName = lastNameET.getText().toString();
-      String phoneNumber = phoneNumberET.getText().toString();
-      String storeName = storeNameET.getText().toString();
-      if(!validateInputData(email, password, firstName, lastName, phoneNumber, storeName)) return;
-      viewModel.signUp(email, password, firstName, lastName, phoneNumber, storeName, getActivity(), isSuccessful -> {
-          if(isSuccessful) HelperClass.navigateToActivity(getActivity(), ProvidersActivity.class);
-          else HelperClass.alertMessage(getActivity(), "Filed To SignUp");
-          initialiseET();
-      });
+        loader.setVisibility(View.VISIBLE);
+        signUpButton.setVisibility(View.GONE);
+        signInButton.setVisibility(View.GONE);
+        String email = emailET.getText().toString();
+        String password = passwordET.getText().toString();
+        String firstName = firstNameET.getText().toString();
+        String lastName = lastNameET.getText().toString();
+        String phoneNumber = phoneNumberET.getText().toString();
+        String storeName = storeNameET.getText().toString();
+        if(!validateInputData(email, password, firstName, lastName, phoneNumber, storeName)) return;
+        viewModel.signUp(email, password, firstName, lastName, phoneNumber, storeName, getActivity(), isSuccessful -> {
+            loader.setVisibility(View.GONE);
+            signUpButton.setVisibility(View.VISIBLE);
+            signInButton.setVisibility(View.VISIBLE);
+            if(isSuccessful) HelperClass.navigateToActivity(getActivity(), ProvidersActivity.class);
+            else HelperClass.alertMessage(getActivity(), "Filed To SignUp");
+            initialiseET();
+        });
     };
 
     // Helpers
