@@ -1,19 +1,17 @@
 package com.flowerzapi.providers_dashboard_app.model;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.sip.SipSession;
+import android.graphics.Bitmap;
+import android.util.Log;
 
-import androidx.room.Room;
+import androidx.lifecycle.MutableLiveData;
 
 import com.flowerzapi.providers_dashboard_app.model.externalDB.ExternalRepository;
-import com.flowerzapi.providers_dashboard_app.model.localDB.AppLocalDB;
+import com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel.FlowerBouquet;
 import com.flowerzapi.providers_dashboard_app.model.localDB.LocalRepository;
 import com.flowerzapi.providers_dashboard_app.model.userModel.User;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MainRepository {
 
@@ -22,10 +20,17 @@ public class MainRepository {
     private final ExternalRepository externalRepository;
     private LocalRepository localRepository;
 
+    private MutableLiveData<User> currentUser;
+    private MutableLiveData<List<User>> users;
+    private MutableLiveData<List<FlowerBouquet>> bouquets;
+
     // Constructor
     private MainRepository() {
         this.externalRepository = new ExternalRepository();
         this.localRepository = new LocalRepository();
+        currentUser = new MutableLiveData<>();
+        users = new MutableLiveData<>();
+        bouquets = new MutableLiveData<>();
     }
 
     // Get Instance
@@ -55,7 +60,7 @@ public class MainRepository {
     public boolean isSignedIn(){
         return externalRepository.getCurrentUser() != null;
     }
-    public void signOut() { externalRepository.signOut();}
+    public void signOut() { externalRepository.signOut(); currentUser.setValue(null);}
     public void changePassword(String password, MainRepository.CustomListener<Boolean> listener) {
         externalRepository.changePassword(password, listener);
     }
@@ -68,27 +73,52 @@ public class MainRepository {
 
     // User Model
     public void addUser(User user, CustomListener<Boolean> listener){
-        externalRepository.addOrUpdateUser(user, listener);
+        externalRepository.addOrUpdateUser(user, isSuccessful -> {
+            if(isSuccessful) externalRepository.getAllUsers(users::setValue);
+            listener.onComplete(isSuccessful);
+        });
     }
-
     public void updateUser(User user, CustomListener<Boolean> listener){
-        externalRepository.addOrUpdateUser(user, listener);
+        externalRepository.addOrUpdateUser(user, isSuccessful -> {
+            if(isSuccessful) externalRepository.getAllUsers(users::setValue);
+            listener.onComplete(isSuccessful);
+        });
     }
-
-    public void getAllUsers(CustomListener<List<User>> listener){
-        externalRepository.getAllUsers(listener);
-    }
-
     public void getSpecificUser(String userId,  CustomListener<User> listener){
         externalRepository.getSpecificUser(userId, listener);
     }
-
-    public void getCurrentUser(CustomListener<User> listener){
-        getSpecificUser(externalRepository.getCurrentUser().getUid(), listener);
-    }
-
     public void deleteSpecificUser(String userId, CustomListener<Boolean> listener){
-        externalRepository.deleteSpecificUser(userId, listener);
+        externalRepository.deleteSpecificUser(userId, isSuccessful -> {
+            if(isSuccessful) externalRepository.getAllUsers(users::setValue);
+            listener.onComplete(isSuccessful);
+        });
+    }
+    public MutableLiveData<List<User>> getAllUsers(){
+        externalRepository.getAllUsers(users::setValue);
+        return users;
+    }
+    public MutableLiveData<User> getCurrentUser(){
+        getSpecificUser(externalRepository.getCurrentUser().getUid(), currentUser::setValue);
+        return currentUser;
     }
 
+    // Flower Model
+    public void addBouquet(String title, String description, Bitmap image, CustomListener<Boolean> listener) {
+        FlowerBouquet flowerBouquet = new FlowerBouquet();
+        flowerBouquet.setUserId(externalRepository.getCurrentUser().getUid());
+        flowerBouquet.setBouquetTitle(title);
+        flowerBouquet.setBouquetDescription(description);
+        externalRepository.uploadImage(image, flowerBouquet.getBouquetId(), url -> {
+            if(url == null) {listener.onComplete(false); return;}
+            flowerBouquet.setBouquetImageUrl(url);
+            externalRepository.addOrUpdateBouquet(flowerBouquet, isSuccessful -> {
+                if(isSuccessful) externalRepository.getAllBouquets(bouquets::setValue);
+                listener.onComplete(isSuccessful);
+            });
+        });
+    }
+    public MutableLiveData<List<FlowerBouquet>> getAllBouquets(){
+        externalRepository.getAllBouquets(bouquets::setValue);
+        return bouquets;
+    }
 }

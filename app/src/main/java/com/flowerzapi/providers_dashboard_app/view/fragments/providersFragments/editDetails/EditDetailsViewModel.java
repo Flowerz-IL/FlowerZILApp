@@ -10,23 +10,22 @@ import com.flowerzapi.providers_dashboard_app.model.userModel.User;
 public class EditDetailsViewModel extends ViewModel {
 
     // Data
-    MainRepository mainRepository = MainRepository.getInstance();
+    MainRepository mainRepository;
     private MutableLiveData<User> user;
 
     // Constructor
     public EditDetailsViewModel() {
         mainRepository = MainRepository.getInstance();
-        user = new MutableLiveData<>();
-        mainRepository.getCurrentUser(user -> {
-            this.user.setValue(user);
-        });
+        user = mainRepository.getCurrentUser();
     }
 
     // Getters
     public LiveData<User> getUser() {
         return user;
     }
+    public User getUserData() { return user.getValue(); }
 
+    // edit user
     public void editUser(String email, String firstName, String lastName, String phoneNumber, String storeName, MainRepository.CustomListener<Boolean> listener) {
         User current = user.getValue();
         assert current != null;

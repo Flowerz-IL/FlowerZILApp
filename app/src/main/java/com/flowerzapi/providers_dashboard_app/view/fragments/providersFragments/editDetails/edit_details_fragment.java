@@ -1,13 +1,6 @@
 package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.editDetails;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.flowerzapi.providers_dashboard_app.R;
 import com.flowerzapi.providers_dashboard_app.model.userModel.User;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
 import com.flowerzapi.providers_dashboard_app.util.Validation;
-import com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.providersDetails.ProvidersDetailsViewModel;
 
 public class edit_details_fragment extends Fragment {
 
@@ -76,7 +73,10 @@ public class edit_details_fragment extends Fragment {
         String phoneNumber = phoneNumberET.getText().toString();
         String storeName = storeNameET.getText().toString();
         if(!validateInputData(email, firstName, lastName, phoneNumber, storeName)) return;
-        viewModel.editUser(email, firstName, lastName, phoneNumber, storeName, isSuccessful -> HelperClass.navigateToFragment(view, R.id.edit_to_user));
+        viewModel.editUser(email, firstName, lastName, phoneNumber, storeName, isSuccessful -> {
+            if(isSuccessful) HelperClass.navigateToFragment(view, R.id.edit_to_user);
+            else HelperClass.alertMessage(getActivity(), "Something went wrong please try again later");
+        });
     };
 
     // Helpers

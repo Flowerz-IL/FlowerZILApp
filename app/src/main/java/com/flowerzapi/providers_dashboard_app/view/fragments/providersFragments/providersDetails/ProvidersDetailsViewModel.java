@@ -10,22 +10,18 @@ import com.flowerzapi.providers_dashboard_app.model.userModel.User;
 public class ProvidersDetailsViewModel extends ViewModel {
 
     // Data
-    MainRepository mainRepository = MainRepository.getInstance();
+    MainRepository mainRepository;
     private MutableLiveData<User> user;
 
     // Constructor
     public ProvidersDetailsViewModel() {
         mainRepository = MainRepository.getInstance();
-        user = new MutableLiveData<>();
-        mainRepository.getCurrentUser(user -> {
-            this.user.setValue(user);
-        });
+        user = mainRepository.getCurrentUser();
     }
 
     // Getters
-    public LiveData<User> getUser() {
-        return user;
-    }
+    public LiveData<User> getUser() { return user; }
+    public User getUserData() { return user.getValue(); }
 
     // sign out
     public void signOut(){ mainRepository.signOut(); }

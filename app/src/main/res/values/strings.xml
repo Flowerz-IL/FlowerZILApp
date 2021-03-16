@@ -29,4 +29,8 @@
     <string name="edit">Edit</string>
     <string name="new_password">new password</string>
     <string name="save">save</string>
+    <string name="title">Title</string>
+    <string name="description">description</string>
+    <string name="add_bouquet">Add Bouquet</string>
+    <string name="add">add</string>
 </resources>

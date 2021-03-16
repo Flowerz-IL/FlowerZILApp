@@ -15,7 +15,13 @@
         android:id="@+id/provider_items"
         android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.providerItems.providers_items_fragment"
         android:label="Provider Items"
-        tools:layout="@layout/fragment_providers_items" />
+        tools:layout="@layout/fragment_providers_items" >
+        <action
+            android:id="@+id/provider_items_to_add_bouquet"
+            app:destination="@id/add_bouquet_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
+    </fragment>
 
     <fragment
         android:id="@+id/user_details"
@@ -54,4 +60,14 @@
         android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.changePassword.change_password_fragment"
         android:label="change_password_fragment"
         tools:layout="@layout/change_password_fragment" />
+    <fragment
+        android:id="@+id/add_bouquet_fragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.addBouquet.add_bouquet_fragment"
+        android:label="add_bouquet_fragment"
+        tools:layout="@layout/add_bouquet_fragment" >
+        <action
+            android:id="@+id/add_to_providers"
+            app:destination="@id/provider_items"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

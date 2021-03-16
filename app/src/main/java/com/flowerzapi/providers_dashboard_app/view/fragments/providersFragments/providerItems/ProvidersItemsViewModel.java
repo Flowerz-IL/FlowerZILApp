@@ -4,16 +4,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.flowerzapi.providers_dashboard_app.model.MainRepository;
+import com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel.FlowerBouquet;
+
+import java.util.List;
+
 public class ProvidersItemsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    // Data
+    MainRepository mainRepository;
+    private MutableLiveData<List<FlowerBouquet>> flowerBouquets;
 
+    // Constructor
     public ProvidersItemsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mainRepository = MainRepository.getInstance();
+        flowerBouquets = mainRepository.getAllBouquets();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    // Getter
+    public LiveData<List<FlowerBouquet>> getBouquets() {
+        return flowerBouquets;
     }
+    public List<FlowerBouquet> getBouquetsData() { return flowerBouquets.getValue(); }
 }

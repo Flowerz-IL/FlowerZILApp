@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.providersFragments.addBouquet.add_bouquet_fragment">
+
+    <TextView
+        android:id="@+id/add_bouquet_tv"
+        android:layout_width="286dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="94dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="94dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="casual"
+        android:text="@string/add_bouquet"
+        android:textAlignment="center"
+        android:textColor="@color/green_dark"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bouquet_image_add_bouquet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bouquet_image_add_bouquet"
+        android:layout_width="0dp"
+        android:layout_height="248dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/defaultbouquet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_bouquet_tv" />
+
+    <ImageButton
+        android:id="@+id/edit_image_add_bouquet"
+        android:layout_width="53dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="340dp"
+        android:layout_marginEnd="32dp"
+        android:background="#4AFFFFFF"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/title_add_bouquet_et"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="25dp"
+        android:autofillHints="@string/title"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_title"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="@string/title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bouquet_image_add_bouquet" />
+
+    <EditText
+        android:id="@+id/description_add_bouquet_et"
+        android:layout_width="0dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="25dp"
+        android:autofillHints="@string/title"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_description"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="@string/description"
+        android:inputType="textMultiLine"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_add_bouquet_et" />
+
+    <Button
+        android:id="@+id/add_bt_add_bouquet"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/green_light"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="@string/add"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cancel_bt_add_bouquet"
+        app:layout_constraintTop_toBottomOf="@+id/description_add_bouquet_et"
+        tools:targetApi="lollipop" />
+
+    <Button
+        android:id="@+id/cancel_bt_add_bouquet"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/green_dark"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_bt_add_bouquet"
+        app:layout_constraintEnd_toStartOf="@+id/add_bt_add_bouquet"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_bt_add_bouquet"
+        tools:targetApi="lollipop" />
+
+    <ProgressBar
+        android:id="@+id/loader_add_bouquet"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="59dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
