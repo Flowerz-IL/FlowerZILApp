@@ -13,7 +13,7 @@ public class bouquetListViewModel extends ViewModel {
 
     // Data
     MainRepository mainRepository;
-    private MutableLiveData<List<FlowerBouquet>> flowerBouquets;
+    private LiveData<List<FlowerBouquet>> flowerBouquets;
     private String currentUserId;
 
     // Constructor

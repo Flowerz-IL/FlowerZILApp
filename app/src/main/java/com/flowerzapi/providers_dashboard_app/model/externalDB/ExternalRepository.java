@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import com.flowerzapi.providers_dashboard_app.model.MainRepository;
 import com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel.FlowerBouquet;
 import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -57,7 +58,7 @@ public class ExternalRepository {
         fireStore
                 .collection("users")
                 .document(user.getUserId())
-                .set(user)
+                .set(user.toMap())
                 .addOnSuccessListener(aVoid -> { listener.onComplete(true); })
                 .addOnFailureListener(e -> { listener.onComplete(false); });
     }
@@ -68,8 +69,11 @@ public class ExternalRepository {
                 .addOnCompleteListener(task -> {
                     List<User> users = new ArrayList<>();
                     if(task.isSuccessful())
-                        for( DocumentSnapshot doc : Objects.requireNonNull(task.getResult()))
-                            users.add(doc.toObject(User.class));
+                        for( DocumentSnapshot doc : Objects.requireNonNull(task.getResult())){
+                            User user = new User();
+                            user.fromMap(doc.getData());
+                            users.add(user);
+                        }
                     listener.onComplete(users);
                 });
     }
@@ -80,8 +84,10 @@ public class ExternalRepository {
                 .get()
                 .addOnCompleteListener(task -> {
                     User user = null;
-                    if(task.isSuccessful() && task.getResult() != null)
-                        user = task.getResult().toObject(User.class);
+                    if(task.isSuccessful() && task.getResult() != null){
+                        user = new User();
+                        user.fromMap(task.getResult().getData());
+                    }
                     listener.onComplete(user);
                 });
     }
@@ -99,19 +105,22 @@ public class ExternalRepository {
         fireStore
                 .collection("flowerBouquets")
                 .document(bouquet.getBouquetId())
-                .set(bouquet)
+                .set(bouquet.toMap())
                 .addOnSuccessListener(aVoid -> { listener.onComplete(true); })
                 .addOnFailureListener(e -> { listener.onComplete(false); });
     }
-    public void getAllBouquets(MainRepository.CustomListener<List<FlowerBouquet>> listener) {
-        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-        fireStore.collection("flowerBouquets")
+    public void getAllBouquets(Long lastUpdated, MainRepository.CustomListener<List<FlowerBouquet>> listener) {
+        FirebaseFirestore.getInstance().collection("flowerBouquets")
+                .whereGreaterThanOrEqualTo("lastUpdated", new Timestamp(lastUpdated,0))
                 .get()
                 .addOnCompleteListener(task -> {
                     List<FlowerBouquet> bouquets = new ArrayList<>();
                     if(task.isSuccessful())
-                        for( DocumentSnapshot doc : Objects.requireNonNull(task.getResult()))
-                            bouquets.add(doc.toObject(FlowerBouquet.class));
+                        for( DocumentSnapshot doc : Objects.requireNonNull(task.getResult())){
+                            FlowerBouquet bouquet = new FlowerBouquet();
+                            bouquet.fromMap(doc.getData());
+                            bouquets.add(bouquet);
+                        }
                     listener.onComplete(bouquets);
                 });
     }
@@ -122,8 +131,10 @@ public class ExternalRepository {
                 .get()
                 .addOnCompleteListener(task -> {
                     FlowerBouquet bouquet = null;
-                    if(task.isSuccessful() && task.getResult() != null)
-                        bouquet = task.getResult().toObject(FlowerBouquet.class);
+                    if(task.isSuccessful() && task.getResult() != null){
+                        bouquet = new FlowerBouquet();
+                        bouquet.fromMap(task.getResult().getData());
+                    }
                     listener.onComplete(bouquet);
                 });
     }

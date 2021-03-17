@@ -5,7 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity(tableName = "users")
 public class User {
@@ -57,4 +63,25 @@ public class User {
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
 
+    // Helpers
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("email", email);
+        map.put("firstName", firstName);
+        map.put("lastName", lastName);
+        map.put("storeName", storeName);
+        map.put("phoneNumber", phoneNumber);
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        return map;
+    }
+    public void fromMap(Map<String, Object> map) {
+        setUserId((String) map.get("userId"));
+        setEmail((String) map.get("email"));
+        setFirstName((String) map.get("firstName"));
+        setLastName((String) map.get("lastName"));
+        setStoreName((String) map.get("storeName"));
+        setPhoneNumber((String) map.get("phoneNumber"));
+        setLastUpdated(((Timestamp) map.get("lastUpdated")).toDate().getTime());
+    }
 }

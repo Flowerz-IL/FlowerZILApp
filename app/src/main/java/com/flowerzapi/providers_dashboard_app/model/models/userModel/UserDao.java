@@ -1,5 +1,6 @@
 package com.flowerzapi.providers_dashboard_app.model.models.userModel;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface UserDao {
 
     @Query("SELECT * FROM users ORDER BY first_name")
-    List<User> getAllUsers();
+    LiveData<List<User>> getAllUsers();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUsers(User... users);

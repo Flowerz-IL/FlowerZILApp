@@ -5,8 +5,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -55,4 +61,26 @@ public class FlowerBouquet {
     public void setBouquetTitle(String bouquetTitle) { this.bouquetTitle = bouquetTitle; }
     public void setBouquetDescription(String bouquetDescription) { this.bouquetDescription = bouquetDescription; }
     public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
+
+    // Helpers
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("bouquetId", bouquetId);
+        map.put("userId", userId);
+        map.put("userPhone", userPhone);
+        map.put("bouquetImageUrl", bouquetImageUrl);
+        map.put("bouquetTitle", bouquetTitle);
+        map.put("bouquetDescription", bouquetDescription);
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        return map;
+    }
+    public void fromMap(Map<String, Object> map) {
+        setBouquetId((String) map.get("bouquetId"));
+        setUserId((String) map.get("userId"));
+        setUserPhone((String) map.get("userPhone"));
+        setBouquetImageUrl((String) map.get("bouquetImageUrl"));
+        setBouquetTitle((String) map.get("bouquetTitle"));
+        setBouquetDescription((String) map.get("bouquetDescription"));
+        setLastUpdated(((Timestamp) map.get("lastUpdated")).toDate().getTime());
+    }
 }

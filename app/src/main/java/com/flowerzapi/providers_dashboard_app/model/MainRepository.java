@@ -1,14 +1,20 @@
 package com.flowerzapi.providers_dashboard_app.model;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.flowerzapi.providers_dashboard_app.MyApplication;
 import com.flowerzapi.providers_dashboard_app.model.externalDB.ExternalRepository;
+import com.flowerzapi.providers_dashboard_app.model.localDB.AppLocalDB;
 import com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel.FlowerBouquet;
 import com.flowerzapi.providers_dashboard_app.model.localDB.LocalRepository;
 import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
+import com.flowerzapi.providers_dashboard_app.view.activities.MainActivity;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +28,7 @@ public class MainRepository {
 
     private MutableLiveData<User> currentUser;
     private MutableLiveData<List<User>> users;
-    private MutableLiveData<List<FlowerBouquet>> bouquets;
+    private LiveData<List<FlowerBouquet>> bouquets;
 
     // Constructor
     private MainRepository() {
@@ -30,7 +36,6 @@ public class MainRepository {
         this.localRepository = new LocalRepository();
         currentUser = new MutableLiveData<>();
         users = new MutableLiveData<>();
-        bouquets = new MutableLiveData<>();
     }
 
     // Get Instance
@@ -114,6 +119,19 @@ public class MainRepository {
     }
 
     // Flower Model
+    public void refreshBouquets(){
+        SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences("lastUpdate", Context.MODE_PRIVATE);
+        Long lastUpdated = sharedPreferences.getLong("BouquetsLastUpdate", 0);
+
+        externalRepository.getAllBouquets(lastUpdated, bouquets -> {
+            long mostRecentUpdate = 0;
+            for(FlowerBouquet bouquet : bouquets) {
+                localRepository.addBouquet(bouquet);
+                mostRecentUpdate = Math.max(mostRecentUpdate, bouquet.getLastUpdated());
+            }
+            sharedPreferences.edit().putLong("BouquetsLastUpdate", mostRecentUpdate).apply();
+        });
+    }
     public void addBouquet(String title, String description, Bitmap image, CustomListener<Boolean> listener) {
         FlowerBouquet flowerBouquet = new FlowerBouquet();
         flowerBouquet.setUserId(Objects.requireNonNull(currentUser.getValue()).getUserId());
@@ -124,7 +142,7 @@ public class MainRepository {
             if(url == null) {listener.onComplete(false); return;}
             flowerBouquet.setBouquetImageUrl(url);
             externalRepository.addOrUpdateBouquet(flowerBouquet, isSuccessful -> {
-                if(isSuccessful) externalRepository.getAllBouquets(bouquets::setValue);
+                if(isSuccessful) refreshBouquets();
                 listener.onComplete(isSuccessful);
             });
         });
@@ -139,19 +157,22 @@ public class MainRepository {
             if(url == null) {listener.onComplete(false); return;}
             flowerBouquet.setBouquetImageUrl(url);
             externalRepository.addOrUpdateBouquet(flowerBouquet, isSuccessful -> {
-                if(isSuccessful) externalRepository.getAllBouquets(bouquets::setValue);
+                if(isSuccessful) refreshBouquets();
                 listener.onComplete(isSuccessful);
             });
         });
     }
     public void deleteSpecificBouquet(String bouquetId, CustomListener<Boolean> listener){
         externalRepository.deleteSpecificBouquet(bouquetId, isSuccessful -> {
-            if(isSuccessful) externalRepository.getAllBouquets(bouquets::setValue);
+            if(isSuccessful) refreshBouquets();
             listener.onComplete(isSuccessful);
         });
     }
-    public MutableLiveData<List<FlowerBouquet>> getAllBouquets(){
-        externalRepository.getAllBouquets(bouquets::setValue);
+    public LiveData<List<FlowerBouquet>> getAllBouquets() {
+        if (bouquets == null) {
+            bouquets = localRepository.getAllBouquets();
+            refreshBouquets();
+        }
         return bouquets;
     }
 }

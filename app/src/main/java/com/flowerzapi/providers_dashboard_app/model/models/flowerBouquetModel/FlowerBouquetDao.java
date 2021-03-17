@@ -1,5 +1,6 @@
 package com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface FlowerBouquetDao {
 
     @Query("SELECT * FROM flower_bouquets ORDER BY title")
-    List<FlowerBouquet> getAllBouquets();
+    LiveData<List<FlowerBouquet>> getAllBouquets();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBouquets(FlowerBouquet... flowerBouquets);
