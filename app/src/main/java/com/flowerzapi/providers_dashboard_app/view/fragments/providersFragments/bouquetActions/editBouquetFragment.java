@@ -1,4 +1,4 @@
-package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.addBouquet;
+package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.bouquetActions;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.flowerzapi.providers_dashboard_app.R;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
-import com.flowerzapi.providers_dashboard_app.util.Validation;
 import com.squareup.picasso.Picasso;
 
 
@@ -61,7 +60,12 @@ public class editBouquetFragment extends bouquetActionsFragment {
         String title = titleET.getText().toString();
         String description = descriptionET.getText().toString();
         Bitmap image = ((BitmapDrawable) bouquetIV.getDrawable()).getBitmap();
-        if(!validateInputData(title,description)) return;
+        if(!validateInputData(title,description)){
+            Loader.setVisibility(View.GONE);
+            addBT.setVisibility(View.VISIBLE);
+            cancelBT.setVisibility(View.VISIBLE);
+            return;
+        }
         viewModel.updateBouquet(currentBouquetId, title, description, image, isSuccessful -> {
             Loader.setVisibility(View.GONE);
             addBT.setVisibility(View.VISIBLE);

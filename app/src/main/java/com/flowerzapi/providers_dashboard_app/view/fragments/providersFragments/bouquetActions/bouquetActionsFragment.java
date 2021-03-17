@@ -1,4 +1,4 @@
-package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.addBouquet;
+package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.bouquetActions;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -72,7 +72,7 @@ public class bouquetActionsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_bouquet_fragment, container, false);
+        return inflater.inflate(R.layout.bouquet_actions_fragment, container, false);
     }
 
     @Override

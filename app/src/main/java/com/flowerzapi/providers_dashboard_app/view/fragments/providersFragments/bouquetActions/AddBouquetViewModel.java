@@ -1,4 +1,4 @@
-package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.addBouquet;
+package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.bouquetActions;
 
 import android.graphics.Bitmap;
 

@@ -69,7 +69,12 @@ public class signUpFragment extends Fragment {
         String lastName = lastNameET.getText().toString();
         String phoneNumber = phoneNumberET.getText().toString();
         String storeName = storeNameET.getText().toString();
-        if(!validateInputData(email, password, firstName, lastName, phoneNumber, storeName)) return;
+        if(!validateInputData(email, password, firstName, lastName, phoneNumber, storeName)) {
+            loader.setVisibility(View.GONE);
+            signUpButton.setVisibility(View.VISIBLE);
+            signInButton.setVisibility(View.VISIBLE);
+            return;
+        }
         viewModel.signUp(email, password, firstName, lastName, phoneNumber, storeName, getActivity(), isSuccessful -> {
             loader.setVisibility(View.GONE);
             signUpButton.setVisibility(View.VISIBLE);

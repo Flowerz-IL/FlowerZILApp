@@ -61,7 +61,12 @@ public class signInFragment extends Fragment {
         signInButton.setVisibility(View.GONE);
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
-        if(!validateInputData(email, password)) return;
+        if(!validateInputData(email, password)) {
+            loader.setVisibility(View.GONE);
+            signUpButton.setVisibility(View.VISIBLE);
+            signInButton.setVisibility(View.VISIBLE);
+            return;
+        }
         viewModel.signIn(email, password, getActivity(), isSuccessful -> {
             loader.setVisibility(View.GONE);
             signUpButton.setVisibility(View.VISIBLE);

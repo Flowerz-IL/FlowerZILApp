@@ -61,12 +61,12 @@
         tools:layout="@layout/change_password_fragment" />
     <fragment
         android:id="@+id/add_bouquet_fragment"
-        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.addBouquet.addBouquetFragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.bouquetActions.addBouquetFragment"
         android:label="add_bouquet_fragment"
-        tools:layout="@layout/add_bouquet_fragment" />
+        tools:layout="@layout/bouquet_actions_fragment" />
     <fragment
         android:id="@+id/editBouquet"
-        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.addBouquet.editBouquetFragment"
+        android:name="com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.bouquetActions.editBouquetFragment"
         android:label="fragment_edit_bouquet"
         tools:layout="@layout/fragment_edit_bouquet" >
         <argument
