@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.flowerzapi.providers_dashboard_app.model.MainRepository;
-import com.flowerzapi.providers_dashboard_app.model.userModel.User;
+import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
 
 public class ProvidersDetailsViewModel extends ViewModel {
 

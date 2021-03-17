@@ -33,4 +33,7 @@
     <string name="description">description</string>
     <string name="add_bouquet">Add Bouquet</string>
     <string name="add">add</string>
+    <string name="flower_image">flower image</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="delete_item">delete item</string>
 </resources>

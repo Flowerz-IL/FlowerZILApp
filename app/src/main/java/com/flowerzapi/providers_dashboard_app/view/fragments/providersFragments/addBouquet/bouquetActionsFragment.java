@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,17 +31,18 @@ import com.flowerzapi.providers_dashboard_app.util.Validation;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class add_bouquet_fragment extends Fragment {
+public class bouquetActionsFragment extends Fragment {
 
     // Data
     static final int REQUEST_IMAGE_CAPTURE = 0;
     static final int REQUEST_IMAGE_GALLERY = 1;
-    ProgressBar Loader;
-    AddBouquetViewModel viewModel;
-    ImageView bouquetIV;
-    ImageButton editImageBT;
-    Button addBT, cancelBT;
-    EditText titleET, descriptionET;
+    protected ProgressBar Loader;
+    protected TextView textView;
+    protected AddBouquetViewModel viewModel;
+    protected ImageView bouquetIV;
+    protected ImageButton editImageBT;
+    protected Button addBT, cancelBT;
+    protected EditText titleET, descriptionET;
 
     // Override
     @Override
@@ -51,6 +53,7 @@ public class add_bouquet_fragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(AddBouquetViewModel.class);
 
         // Initialise view items
+        textView = view.findViewById(R.id.add_bouquet_tv);
         Loader = view.findViewById(R.id.loader_add_bouquet);
         bouquetIV = view.findViewById(R.id.bouquet_image_add_bouquet);
         editImageBT = view.findViewById(R.id.edit_image_add_bouquet);
@@ -109,13 +112,13 @@ public class add_bouquet_fragment extends Fragment {
             Loader.setVisibility(View.GONE);
             addBT.setVisibility(View.VISIBLE);
             cancelBT.setVisibility(View.VISIBLE);
-            if(isSuccessful) HelperClass.navigateToFragment(view, R.id.add_to_providers);
+            if(isSuccessful) HelperClass.navigateToFragment(view, -1);
             else HelperClass.alertMessage(getActivity(), "Something went wrong please try again later");
         });
     };
 
     // Helpers
-    private boolean validateInputData(String title, String description) {
+    protected boolean validateInputData(String title, String description) {
         boolean res = true;
 
         if(!Validation.validateShortText(title)){
@@ -131,7 +134,7 @@ public class add_bouquet_fragment extends Fragment {
         if(!res) HelperClass.alertMessage(getActivity(), "fix the errors before submitting");
         return res;
     }
-    private void selectImage() {
+    protected void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose your bouquet picture");

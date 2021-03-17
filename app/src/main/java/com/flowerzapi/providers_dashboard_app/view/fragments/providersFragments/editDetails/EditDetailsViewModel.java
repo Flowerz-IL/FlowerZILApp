@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.flowerzapi.providers_dashboard_app.model.MainRepository;
-import com.flowerzapi.providers_dashboard_app.model.userModel.User;
+import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
 
 public class EditDetailsViewModel extends ViewModel {
 
@@ -35,5 +35,10 @@ public class EditDetailsViewModel extends ViewModel {
         current.setPhoneNumber(phoneNumber);
         current.setStoreName(storeName);
         mainRepository.updateUser(current, listener);
+    }
+
+    // change password
+    public void changePassword(String password, MainRepository.CustomListener<Boolean> listener){
+        mainRepository.changePassword(password, listener);
     }
 }

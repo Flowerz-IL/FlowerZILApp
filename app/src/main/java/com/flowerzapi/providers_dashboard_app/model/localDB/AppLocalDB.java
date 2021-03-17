@@ -1,15 +1,16 @@
 package com.flowerzapi.providers_dashboard_app.model.localDB;
 
 import android.content.Context;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel.FlowerBouquet;
-import com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel.FlowerBouquetDao;
-import com.flowerzapi.providers_dashboard_app.model.userModel.User;
-import com.flowerzapi.providers_dashboard_app.model.userModel.UserDao;
+import com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel.FlowerBouquet;
+import com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel.FlowerBouquetDao;
+import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
+import com.flowerzapi.providers_dashboard_app.model.models.userModel.UserDao;
 
 @Database(entities = {FlowerBouquet.class, User.class}, version = 2)
 @TypeConverters({Converters.class})

@@ -1,28 +1,25 @@
-package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.changePassword;
+package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.editDetails;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.flowerzapi.providers_dashboard_app.R;
 import com.flowerzapi.providers_dashboard_app.util.HelperClass;
 import com.flowerzapi.providers_dashboard_app.util.Validation;
-import com.flowerzapi.providers_dashboard_app.view.activities.AuthActivity;
-import com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.providersDetails.ProvidersDetailsViewModel;
 
-public class change_password_fragment extends Fragment {
+public class changePasswordFragment extends Fragment {
 
     // Data
-    ChangePasswordViewModel viewModel;
+    EditDetailsViewModel viewModel;
     EditText passwordET;
     Button saveBT, cancelBT;
 
@@ -32,7 +29,7 @@ public class change_password_fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialise viewModel
-        viewModel = new ViewModelProvider(this).get(ChangePasswordViewModel.class);
+        viewModel = new ViewModelProvider(this).get(EditDetailsViewModel.class);
 
         // Initialise view items
         passwordET = view.findViewById(R.id.change_password_et);

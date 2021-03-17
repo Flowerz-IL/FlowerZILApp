@@ -2,9 +2,6 @@ package com.flowerzapi.providers_dashboard_app.util;
 
 import android.util.Patterns;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Validation {
 
     public static boolean validateEmail(String email) {

@@ -8,9 +8,6 @@ import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 
-import com.flowerzapi.providers_dashboard_app.R;
-import com.flowerzapi.providers_dashboard_app.view.activities.MainActivity;
-
 public class HelperClass {
 
     public static void navigateToFragment(View view, int actionId) {

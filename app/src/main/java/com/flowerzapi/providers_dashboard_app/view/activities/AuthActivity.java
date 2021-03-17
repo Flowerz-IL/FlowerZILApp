@@ -1,8 +1,8 @@
 package com.flowerzapi.providers_dashboard_app.view.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.flowerzapi.providers_dashboard_app.R;
 

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 
 import com.flowerzapi.providers_dashboard_app.model.MainRepository;
-import com.flowerzapi.providers_dashboard_app.model.flowerBouquetModel.FlowerBouquet;
-import com.flowerzapi.providers_dashboard_app.model.userModel.User;
+import com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel.FlowerBouquet;
+import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
