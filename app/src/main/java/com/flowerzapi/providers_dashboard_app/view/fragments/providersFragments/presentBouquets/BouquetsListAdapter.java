@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,21 +23,27 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapter.BouquetsListViewHolder> {
 
     // Data
     private List<FlowerBouquet> data;
     private String currentUserId;
     private Context context;
+    private boolean allowEdit;
 
     // Constructor
     public BouquetsListAdapter(Context context, String currentUserId){
         this.context = context;
         this.currentUserId = currentUserId;
+        this.allowEdit = false;
     }
 
     // Setter
     public void setData(List<FlowerBouquet> data){ this.data = data;}
+
+    public void setAllowEdit(Boolean isAllowed){ this.allowEdit = isAllowed;}
 
     // Overrides
     @NonNull
@@ -51,6 +58,7 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
     public void onBindViewHolder(@NonNull BouquetsListViewHolder holder, int position) {
         if(data == null) return;
         holder.setData(data.get(position));
+        holder.allowEdit = allowEdit;
     }
 
     @Override
@@ -60,10 +68,11 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
     public class BouquetsListViewHolder extends RecyclerView.ViewHolder {
 
         // Data
-        TextView titleTV, descriptionTV;
+        TextView titleTV, descriptionTV, storeNameTV;
         ImageView flowerImage;
         ImageButton editIB, deleteIB, contactUsBT;
         FlowerBouquet bouqet;
+        boolean allowEdit;
 
         // Constructor
         public BouquetsListViewHolder(@NonNull View itemView) {
@@ -72,6 +81,7 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
             // Initialise view items
             titleTV = itemView.findViewById(R.id.title_bouquet_editable);
             descriptionTV = itemView.findViewById(R.id.description_bouquet_editable);
+            storeNameTV = itemView.findViewById(R.id.store_name_editable_text);
             flowerImage = itemView.findViewById(R.id.img_bouquet_editable);
             editIB = itemView.findViewById(R.id.edit_bouquet_editable);
             deleteIB = itemView.findViewById(R.id.delete_bouquet_editable);
@@ -91,12 +101,13 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
             this.bouqet = bouqet;
             titleTV.setText(bouqet.getBouquetTitle());
             descriptionTV.setText(bouqet.getBouquetDescription());
+            storeNameTV.setText(bouqet.getStoreName());
             Picasso.get()
                     .load(bouqet.getBouquetImageUrl())
                     .placeholder(R.drawable.defaultbouquet)
                     .error(R.drawable.defaultbouquet)
                     .into(flowerImage);
-            if(bouqet.getUserId().equals(currentUserId)){
+            if(bouqet.getUserId().equals(currentUserId) && allowEdit){
                 editIB.setVisibility(View.VISIBLE);
                 deleteIB.setVisibility(View.VISIBLE);
             }

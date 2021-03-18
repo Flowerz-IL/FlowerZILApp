@@ -4,20 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.flowerzapi.providers_dashboard_app.MyApplication;
 import com.flowerzapi.providers_dashboard_app.model.externalDB.ExternalRepository;
-import com.flowerzapi.providers_dashboard_app.model.localDB.AppLocalDB;
 import com.flowerzapi.providers_dashboard_app.model.models.flowerBouquetModel.FlowerBouquet;
 import com.flowerzapi.providers_dashboard_app.model.localDB.LocalRepository;
 import com.flowerzapi.providers_dashboard_app.model.models.userModel.User;
-import com.flowerzapi.providers_dashboard_app.view.activities.MainActivity;
 
 import java.util.List;
 import java.util.Objects;
+
+import static android.content.ContentValues.TAG;
 
 public class MainRepository {
 
@@ -27,7 +28,7 @@ public class MainRepository {
     private LocalRepository localRepository;
 
     private MutableLiveData<User> currentUser;
-    private MutableLiveData<List<User>> users;
+    private LiveData<List<User>> users;
     private LiveData<List<FlowerBouquet>> bouquets;
 
     // Constructor
@@ -35,7 +36,6 @@ public class MainRepository {
         this.externalRepository = new ExternalRepository();
         this.localRepository = new LocalRepository();
         currentUser = new MutableLiveData<>();
-        users = new MutableLiveData<>();
     }
 
     // Get Instance
@@ -85,15 +85,31 @@ public class MainRepository {
     }
 
     // User Model
+    public void refreshUsers(){
+        SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences("lastUpdate", Context.MODE_PRIVATE);
+        long lastUpdated = sharedPreferences.getLong("UsersLastUpdate", 0);
+
+        externalRepository.getAllUsers(lastUpdated, users -> {
+            long mostRecentUpdate = 0;
+            for(User user : users) {
+                if(!user.isDeleted())
+                    localRepository.addUser(user);
+                else
+                    localRepository.deleteUserFromId(user.getUserId(), null);
+                mostRecentUpdate = Math.max(mostRecentUpdate, user.getLastUpdated());
+            }
+            sharedPreferences.edit().putLong("BouquetsLastUpdate", mostRecentUpdate).apply();
+        });
+    }
     public void addUser(User user, CustomListener<Boolean> listener){
         externalRepository.addOrUpdateUser(user, isSuccessful -> {
-            if(isSuccessful) externalRepository.getAllUsers(users::setValue);
+            if(isSuccessful) refreshUsers();
             listener.onComplete(isSuccessful);
         });
     }
     public void updateUser(User user, CustomListener<Boolean> listener){
         externalRepository.addOrUpdateUser(user, isSuccessful -> {
-            if(isSuccessful) externalRepository.getAllUsers(users::setValue);
+            if(isSuccessful) refreshUsers();
             listener.onComplete(isSuccessful);
         });
     }
@@ -101,13 +117,16 @@ public class MainRepository {
         externalRepository.getSpecificUser(userId, listener);
     }
     public void deleteSpecificUser(String userId, CustomListener<Boolean> listener){
-        externalRepository.deleteSpecificUser(userId, isSuccessful -> {
-            if(isSuccessful) externalRepository.getAllUsers(users::setValue);
-            listener.onComplete(isSuccessful);
+       externalRepository.deleteSpecificUser(userId, success -> {
+            if(success) refreshUsers();
+            listener.onComplete(success);
         });
     }
-    public MutableLiveData<List<User>> getAllUsers(){
-        externalRepository.getAllUsers(users::setValue);
+    public LiveData<List<User>> getAllUsers(){
+        if(users == null){
+            users = localRepository.getAllUsers();
+            refreshUsers();
+        }
         return users;
     }
     public MutableLiveData<User> getCurrentUser(){
@@ -119,17 +138,22 @@ public class MainRepository {
     }
 
     // Flower Model
-    public void refreshBouquets(){
+    public void refreshBouquets(CustomListener<Boolean> listener){
         SharedPreferences sharedPreferences = MyApplication.context.getSharedPreferences("lastUpdate", Context.MODE_PRIVATE);
-        Long lastUpdated = sharedPreferences.getLong("BouquetsLastUpdate", 0);
-
+        long lastUpdated = sharedPreferences.getLong("BouquetsLastUpdate", 0);
         externalRepository.getAllBouquets(lastUpdated, bouquets -> {
             long mostRecentUpdate = 0;
             for(FlowerBouquet bouquet : bouquets) {
-                localRepository.addBouquet(bouquet);
+                Log.d(TAG, "from fireStore: " + bouquet.isDeleted() + " " + bouquet.getBouquetTitle());
+                if(!bouquet.isDeleted())
+                    localRepository.addBouquet(bouquet);
+                else
+                    localRepository.deleteBouquetFromId(bouquet.getBouquetId(), null);
                 mostRecentUpdate = Math.max(mostRecentUpdate, bouquet.getLastUpdated());
             }
             sharedPreferences.edit().putLong("BouquetsLastUpdate", mostRecentUpdate).apply();
+
+            if(listener != null) listener.onComplete(true);
         });
     }
     public void addBouquet(String title, String description, Bitmap image, CustomListener<Boolean> listener) {
@@ -142,7 +166,7 @@ public class MainRepository {
             if(url == null) {listener.onComplete(false); return;}
             flowerBouquet.setBouquetImageUrl(url);
             externalRepository.addOrUpdateBouquet(flowerBouquet, isSuccessful -> {
-                if(isSuccessful) refreshBouquets();
+                if(isSuccessful) refreshBouquets(null);
                 listener.onComplete(isSuccessful);
             });
         });
@@ -157,21 +181,21 @@ public class MainRepository {
             if(url == null) {listener.onComplete(false); return;}
             flowerBouquet.setBouquetImageUrl(url);
             externalRepository.addOrUpdateBouquet(flowerBouquet, isSuccessful -> {
-                if(isSuccessful) refreshBouquets();
+                if(isSuccessful) refreshBouquets(null);
                 listener.onComplete(isSuccessful);
             });
         });
     }
     public void deleteSpecificBouquet(String bouquetId, CustomListener<Boolean> listener){
-        externalRepository.deleteSpecificBouquet(bouquetId, isSuccessful -> {
-            if(isSuccessful) refreshBouquets();
-            listener.onComplete(isSuccessful);
+        externalRepository.deleteSpecificBouquet(bouquetId, success -> {
+            if(success) refreshBouquets(null);
+            listener.onComplete(success);
         });
     }
     public LiveData<List<FlowerBouquet>> getAllBouquets() {
         if (bouquets == null) {
             bouquets = localRepository.getAllBouquets();
-            refreshBouquets();
+            refreshBouquets(null);
         }
         return bouquets;
     }

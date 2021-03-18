@@ -24,4 +24,7 @@ public interface UserDao {
 
     @Delete
     void deleteUser(User user);
+
+    @Query("DELETE FROM users WHERE `id`=:userID")
+    void deleteUserFromId(String userID);
 }

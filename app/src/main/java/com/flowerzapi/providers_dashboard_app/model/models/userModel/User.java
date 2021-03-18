@@ -32,9 +32,11 @@ public class User {
     private String phoneNumber;
     @ColumnInfo(name="last_updated_at")
     private long lastUpdated;
+    @ColumnInfo(name="is_deleted")
+    private boolean isDeleted;
 
     // Constructor
-    public User(){}
+    public User(){ this.isDeleted = false;}
 
     public User(@NotNull String userId, String email, String firstName, String lastName, String storeName, String phoneNumber) {
         this.userId = userId;
@@ -43,6 +45,7 @@ public class User {
         this.lastName = lastName;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
+        this.isDeleted = false;
     }
 
     // Getters
@@ -53,6 +56,7 @@ public class User {
     public String getStoreName() { return storeName; }
     public String getPhoneNumber() { return phoneNumber; }
     public long getLastUpdated() { return this.lastUpdated; }
+    public boolean isDeleted() { return isDeleted; }
 
     // Setters
     public void setUserId(@NotNull String userId) {this.userId = userId; }
@@ -62,6 +66,7 @@ public class User {
     public void setStoreName(String storeName) { this.storeName = storeName; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
+    public void setDeleted(boolean deleted) { isDeleted = deleted; }
 
     // Helpers
     public Map<String, Object> toMap() {
@@ -73,6 +78,7 @@ public class User {
         map.put("storeName", storeName);
         map.put("phoneNumber", phoneNumber);
         map.put("lastUpdated", FieldValue.serverTimestamp());
+        map.put("isDeleted",isDeleted);
         return map;
     }
     public void fromMap(Map<String, Object> map) {
@@ -82,6 +88,7 @@ public class User {
         setLastName((String) map.get("lastName"));
         setStoreName((String) map.get("storeName"));
         setPhoneNumber((String) map.get("phoneNumber"));
-        setLastUpdated(((Timestamp) map.get("lastUpdated")).toDate().getTime());
+        setLastUpdated(((Timestamp) map.get("lastUpdated")).getSeconds());
+        setDeleted(((boolean) map.get("isDeleted")));
     }
 }

@@ -24,4 +24,7 @@ public interface FlowerBouquetDao {
 
     @Delete
     void deleteBouquet(FlowerBouquet flowerBouquet);
+
+    @Query("DELETE FROM flower_bouquets WHERE `id`=:flowerBouquetId")
+    void deleteBouquetFromId(String flowerBouquetId);
 }

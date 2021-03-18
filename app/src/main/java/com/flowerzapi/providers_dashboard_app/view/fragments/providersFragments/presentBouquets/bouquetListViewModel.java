@@ -29,4 +29,6 @@ public class bouquetListViewModel extends ViewModel {
         return flowerBouquets;
     }
     public List<FlowerBouquet> getBouquetsData() { return flowerBouquets.getValue(); }
+
+    public void refreshList(MainRepository.CustomListener<Boolean> listener) { mainRepository.refreshBouquets(listener); }
 }

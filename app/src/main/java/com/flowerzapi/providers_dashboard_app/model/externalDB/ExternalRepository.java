@@ -10,6 +10,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -17,7 +18,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class ExternalRepository {
@@ -54,17 +57,16 @@ public class ExternalRepository {
 
     // FireStore functions
     public void addOrUpdateUser(User user, MainRepository.CustomListener<Boolean> listener) {
-        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-        fireStore
+        FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(user.getUserId())
                 .set(user.toMap())
                 .addOnSuccessListener(aVoid -> { listener.onComplete(true); })
                 .addOnFailureListener(e -> { listener.onComplete(false); });
     }
-    public void getAllUsers(MainRepository.CustomListener<List<User>> listener) {
-        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-        fireStore.collection("users")
+    public void getAllUsers(long lastUpdated, MainRepository.CustomListener<List<User>> listener) {
+        FirebaseFirestore.getInstance().collection("users")
+                .whereGreaterThanOrEqualTo("lastUpdated", new Timestamp(lastUpdated,0))
                 .get()
                 .addOnCompleteListener(task -> {
                     List<User> users = new ArrayList<>();
@@ -92,11 +94,13 @@ public class ExternalRepository {
                 });
     }
     public void deleteSpecificUser(String userId, MainRepository.CustomListener<Boolean> listener) {
-        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-        fireStore
+        Map<String, Object> map = new HashMap<>();
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        map.put("isDeleted", true);
+        FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(userId)
-                .delete()
+                .update(map)
                 .addOnCompleteListener(task -> listener.onComplete(task.isSuccessful()));
     }
 
@@ -139,11 +143,13 @@ public class ExternalRepository {
                 });
     }
     public void deleteSpecificBouquet(String bouquetId, MainRepository.CustomListener<Boolean> listener) {
-        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-        fireStore
+        Map<String, Object> map = new HashMap<>();
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        map.put("isDeleted", true);
+        FirebaseFirestore.getInstance()
                 .collection("flowerBouquets")
                 .document(bouquetId)
-                .delete()
+                .update(map)
                 .addOnCompleteListener(task -> listener.onComplete(task.isSuccessful()));
     }
 

@@ -1,6 +1,7 @@
 package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.presentBouquets;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.flowerzapi.providers_dashboard_app.util.HelperClass;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 
 public class providerItemsFragment extends bouquetListFragment {
 
@@ -23,11 +26,13 @@ public class providerItemsFragment extends bouquetListFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        bouquetsListAdapter.setAllowEdit(true);
+
         // Observers
         viewModel.getBouquets().observe(getViewLifecycleOwner(), bouquets -> {
             List<FlowerBouquet> data = new ArrayList<>();
             for( FlowerBouquet bouquet : bouquets)
-                if(bouquet.getUserId().equals(viewModel.getCurrentUserId()))
+                if (bouquet.getUserId().equals(viewModel.getCurrentUserId()))
                     data.add(bouquet);
             bouquetsListAdapter.setData(data);
             bouquetsListAdapter.notifyDataSetChanged();
