@@ -144,7 +144,6 @@ public class MainRepository {
         externalRepository.getAllBouquets(lastUpdated, bouquets -> {
             long mostRecentUpdate = 0;
             for(FlowerBouquet bouquet : bouquets) {
-                Log.d(TAG, "from fireStore: " + bouquet.isDeleted() + " " + bouquet.getBouquetTitle());
                 if(!bouquet.isDeleted())
                     localRepository.addBouquet(bouquet);
                 else

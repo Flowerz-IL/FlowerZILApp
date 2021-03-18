@@ -27,10 +27,12 @@ public class providerItemsFragment extends bouquetListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         bouquetsListAdapter.setAllowEdit(true);
+        bouquetsListAdapter.notifyDataSetChanged();
 
         // Observers
         viewModel.getBouquets().observe(getViewLifecycleOwner(), bouquets -> {
             List<FlowerBouquet> data = new ArrayList<>();
+            bouquetsListAdapter.setAllowEdit(true);
             for( FlowerBouquet bouquet : bouquets)
                 if (bouquet.getUserId().equals(viewModel.getCurrentUserId()))
                     data.add(bouquet);

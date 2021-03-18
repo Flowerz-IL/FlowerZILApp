@@ -31,7 +31,7 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
     private List<FlowerBouquet> data;
     private String currentUserId;
     private Context context;
-    private boolean allowEdit;
+    public boolean allowEdit;
 
     // Constructor
     public BouquetsListAdapter(Context context, String currentUserId){
@@ -58,7 +58,6 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
     public void onBindViewHolder(@NonNull BouquetsListViewHolder holder, int position) {
         if(data == null) return;
         holder.setData(data.get(position));
-        holder.allowEdit = allowEdit;
     }
 
     @Override
@@ -72,7 +71,6 @@ public class BouquetsListAdapter extends RecyclerView.Adapter<BouquetsListAdapte
         ImageView flowerImage;
         ImageButton editIB, deleteIB, contactUsBT;
         FlowerBouquet bouqet;
-        boolean allowEdit;
 
         // Constructor
         public BouquetsListViewHolder(@NonNull View itemView) {
