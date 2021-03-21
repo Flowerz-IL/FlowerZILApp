@@ -1,6 +1,8 @@
 package com.flowerzapi.providers_dashboard_app.view.fragments.providersFragments.presentBouquets;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,4 @@ public class bouquetListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.item_list_fragment, container, false);
     }
-
-
 }
